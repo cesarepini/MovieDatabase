@@ -1,8 +1,10 @@
 package com.example.cesarepini.moviedatabase;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import org.json.JSONException;
 
@@ -18,27 +20,61 @@ import java.util.ArrayList;
  * Created by cesarepini on 15/03/16.
  * Async Task for updating the movies.
  */
-public class UpdateMovies extends AsyncTask <Void, Void, ArrayList<Movie>> {
+
+/**
+ * TODO: implement a way to return the values to the MainActivity.fragment
+ */
+
+public class UpdateMovies extends AsyncTask <String, Void, ArrayList<Movie>> {
+
+    public ArrayList<String> moviesTitles = new ArrayList<>();
+    public ArrayAdapter<String> stringArrayAdapter;
+    private Context context;
 
     /**
      * TAG for the logs.
      */
-    public String LOG_TAG = UpdateMovies.class.getSimpleName();
+    final String LOG_TAG = UpdateMovies.class.getSimpleName();
 
+    final String mostPopular = "popular?";
+    final String topRated = "top_rated?";
+
+
+    public UpdateMovies(ArrayAdapter<String> stringArrayAdapter, Context context){
+        this.stringArrayAdapter = stringArrayAdapter;
+        this.context = context;
+    }
+
+    /**
+     *
+     * @param params most popular or top ranked movies
+     * @return an ArrayList of movies.
+     */
     @Override
-    protected ArrayList<Movie> doInBackground(Void... params) {
+    protected ArrayList<Movie> doInBackground(String... params) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String moviesJSONString =null;
 
         try{
-            final String APP_ID_KEY = "";
+            final String APP_ID_KEY = "f1c3d674f73c91903ee2c6a65692df34";
             final String API_KEY_DECLARATION = "api_key";
             final String BASIC_URL = "http://api.themoviedb.org/3/movie/";
 
             //determining whether popular or best rated movies are to download.
-            String popularOrRated = "popular?";
+            String popularOrRated;
+            if (params.length != 0) {
+                if (params[0].equals(context.getString(R.string.get_most_popular))) {
+                    popularOrRated = mostPopular;
+                } else if (params[0].equals(context.getString(R.string.get_top_ranked))) {
+                    popularOrRated = topRated;
+                } else {
+                    popularOrRated = mostPopular;
+                }
+            } else {
+                popularOrRated = mostPopular;
+            }
 
             //build the URI and the URL for downloading the movies
             Uri uri = Uri.parse(
@@ -46,7 +82,6 @@ public class UpdateMovies extends AsyncTask <Void, Void, ArrayList<Movie>> {
                     .appendQueryParameter(API_KEY_DECLARATION, APP_ID_KEY)
                     .build();
             URL url = new URL(uri.toString());
-            Log.v(LOG_TAG, url.toString());
 
             // Create the request to tmdb, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -105,8 +140,10 @@ public class UpdateMovies extends AsyncTask <Void, Void, ArrayList<Movie>> {
     @Override
     protected void onPostExecute(ArrayList<Movie> result){
         if (result != null) {
+            stringArrayAdapter.clear();
             for (Movie movie : result) {
-                Log.v(LOG_TAG, movie.originalTitle);
+                stringArrayAdapter.add(movie.originalTitle);
+                moviesTitles.add(movie.originalTitle);
             }
         }
     }
