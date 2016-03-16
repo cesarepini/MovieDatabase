@@ -25,7 +25,6 @@ public class JSONDataParser {
     /**
      *It provides a method to parse movies for the popular movies app of udacity course.
      *
-     * @param numOfMovies is the number of movies that has to be returned from the array
      * @return an array list of movies with the following data for each movie:
      *              1. the original title
      *              2. the release date
@@ -35,7 +34,7 @@ public class JSONDataParser {
  *              Each element of the array is an object of type Movie.
      * @throws JSONException if the input string is not readable
      */
-    public ArrayList<Movie> parseMovie(int numOfMovies) throws JSONException{
+    public ArrayList<Movie> parseMovie() throws JSONException{
         ArrayList<Movie> movieArrayList = new ArrayList<>();
         final String OWM_MOVIE_OBJECT = "results";
         final String OWM_MOVIE_VOTE_AVERAGE = "vote_average";
@@ -52,11 +51,12 @@ public class JSONDataParser {
         JSONArray movieJsonArray = moviesJson.getJSONArray(OWM_MOVIE_OBJECT);
 
         int resultsStrsLength;
-        if (numOfMovies > movieJsonArray.length()) {
-            resultsStrsLength = movieJsonArray.length();
-        } else {
-            resultsStrsLength = numOfMovies;
-        }
+//        if (numOfMovies > movieJsonArray.length()) {
+//            resultsStrsLength = movieJsonArray.length();
+//        } else {
+//            resultsStrsLength = numOfMovies;
+//        }
+        resultsStrsLength = movieJsonArray.length();
 
         for(int i = 0; i < resultsStrsLength; i++) {
             JSONObject movieObject = movieJsonArray.getJSONObject(i);
