@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minHeight="?android:attr/listPreferredItemHeight"
     android:id="@+id/movies_listview_text_element">
 
 </TextView>

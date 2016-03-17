@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import org.json.JSONException;
 
@@ -27,8 +26,8 @@ import java.util.ArrayList;
 
 public class UpdateMovies extends AsyncTask <String, Void, ArrayList<Movie>> {
 
-    public ArrayList<String> moviesTitles = new ArrayList<>();
-    public ArrayAdapter<String> stringArrayAdapter;
+    public AsyncResponse delegate = null;
+
     private Context context;
 
     /**
@@ -40,8 +39,7 @@ public class UpdateMovies extends AsyncTask <String, Void, ArrayList<Movie>> {
     final String topRated = "top_rated?";
 
 
-    public UpdateMovies(ArrayAdapter<String> stringArrayAdapter, Context context){
-        this.stringArrayAdapter = stringArrayAdapter;
+    public UpdateMovies(Context context){
         this.context = context;
     }
 
@@ -58,7 +56,7 @@ public class UpdateMovies extends AsyncTask <String, Void, ArrayList<Movie>> {
         String moviesJSONString =null;
 
         try{
-            final String APP_ID_KEY = "YOUR_APP_ID_KEY_HERE";
+            final String APP_ID_KEY = "f1c3d674f73c91903ee2c6a65692df34";
             final String API_KEY_DECLARATION = "api_key";
             final String BASIC_URL = "http://api.themoviedb.org/3/movie/";
 
@@ -140,11 +138,7 @@ public class UpdateMovies extends AsyncTask <String, Void, ArrayList<Movie>> {
     @Override
     protected void onPostExecute(ArrayList<Movie> result){
         if (result != null) {
-            stringArrayAdapter.clear();
-            for (Movie movie : result) {
-                stringArrayAdapter.add(movie.originalTitle);
-                moviesTitles.add(movie.originalTitle);
-            }
+            delegate.processFinish(result);
         }
     }
 }
