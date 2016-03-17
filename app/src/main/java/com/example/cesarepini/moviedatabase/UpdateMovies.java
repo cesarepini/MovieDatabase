@@ -20,10 +20,6 @@ import java.util.ArrayList;
  * Async Task for updating the movies.
  */
 
-/**
- * TODO: implement a way to return the values to the MainActivity.fragment
- */
-
 public class UpdateMovies extends AsyncTask <String, Void, ArrayList<Movie>> {
 
     public AsyncResponse delegate = null;
@@ -56,7 +52,7 @@ public class UpdateMovies extends AsyncTask <String, Void, ArrayList<Movie>> {
         String moviesJSONString =null;
 
         try{
-            final String APP_ID_KEY = "f1c3d674f73c91903ee2c6a65692df34";
+            final String APP_ID_KEY = "";
             final String API_KEY_DECLARATION = "api_key";
             final String BASIC_URL = "http://api.themoviedb.org/3/movie/";
 
