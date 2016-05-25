@@ -28,6 +28,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cesarepini.moviedatabase.MainActivity" />
         </activity>
+        <activity
+            android:name=".DisplayDetails"
+            android:label="@string/title_activity_display_details"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cesarepini.moviedatabase.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.example.cesarepini.moviedatabase;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -27,7 +29,8 @@ public class MainActivityFragment extends Fragment implements AsyncResponse{
      */
     final String LOG_TAG = MainActivityFragment.class.getSimpleName();
 
-    public ArrayAdapter<String> moviesTitlesArrayAdapter;
+    private ArrayAdapter<String> moviesTitlesArrayAdapter;
+    private ArrayList<Movie> movieArrayList;
 
     public MainActivityFragment() {
     }
@@ -63,6 +66,7 @@ public class MainActivityFragment extends Fragment implements AsyncResponse{
         View root = inflater.inflate(R.layout.fragment_main, container, false);
 
         ListView listView = (ListView) root.findViewById(R.id.movies_list_view);
+        movieArrayList = new ArrayList<>();
         moviesTitlesArrayAdapter = new ArrayAdapter<>(
                 getActivity(),
                 R.layout.movies_listview_text_element,
@@ -72,6 +76,15 @@ public class MainActivityFragment extends Fragment implements AsyncResponse{
         listView.setAdapter(
                 moviesTitlesArrayAdapter
         );
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), DisplayDetails.class);
+                intent.putExtra(Intent.EXTRA_TEXT, movieArrayList.get(position).posterPath);
+                startActivity(intent);
+            }
+        });
         
         return root;
     }
@@ -96,8 +109,10 @@ public class MainActivityFragment extends Fragment implements AsyncResponse{
 
     public void processFinish(ArrayList<Movie> result){
         moviesTitlesArrayAdapter.clear();
+        movieArrayList.clear();
         for (Movie movie : result) {
             moviesTitlesArrayAdapter.add(movie.originalTitle);
+            movieArrayList.add(movie);
         }
     }
 }

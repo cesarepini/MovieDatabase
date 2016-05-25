@@ -6,5 +6,4 @@
     android:layout_height="match_parent"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:id="@+id/movies_listview_text_element">
-
 </TextView>

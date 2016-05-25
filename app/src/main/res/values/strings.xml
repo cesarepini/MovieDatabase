@@ -16,5 +16,6 @@
     <string name="get_top_ranked" translatable="false">top_ranked</string>
     <string name="get_top_ranked_label">top ranked movies</string>
     <string name="get_default" translatable="false">@string/get_most_popular</string>
+    <string name="title_activity_display_details">DisplayDetails</string>
 
 </resources>
